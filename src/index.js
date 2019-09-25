@@ -8,11 +8,38 @@ function App() {
 
   const [texto, setTexto] = useState(msg);
   const [lista, setLista] = useState([texto]);
+  const [editMode, setEditMode] = useState(-1);
   // const [input, setInput] = useState(texto);
   const remove = id => {
     console.log(id);
     let newLista = lista.filter((t, i) => id !== i);
     setLista(newLista);
+  };
+
+  const editar = id => {
+    console.log(lista.find((t, i) => id === i));
+    setTexto(lista.find((t, i) => id === i));
+    console.log({ id });
+    setEditMode(Number(id));
+    console.log({ editMode });
+  };
+
+  const add = () => {
+    console.log({ editMode });
+    if (editMode >= 0) {
+      console.log("Editando");
+      let newlista = lista.map((t, i) => {
+        console.log(t);
+        t = editMode === i ? texto : t;
+        return t;
+      });
+      setLista(newlista);
+    } else {
+      console.log("Cadastrando");
+      setLista([...lista, texto]);
+      console.log([...lista, texto]);
+      console.log(lista.length);
+    }
   };
 
   return (
@@ -24,14 +51,10 @@ function App() {
       />
       <button
         onClick={() => {
-          // setTexto(texto);
-          console.log(texto);
-          setLista([...lista, texto]);
-          console.log([...lista, texto]);
-          console.log(lista.length);
+          add();
         }}
       >
-        Salvar
+        {editMode === -1 ? "Salvar" : "Editar"}
       </button>
       <button
         onClick={() => {
@@ -57,6 +80,20 @@ function App() {
               }}
             >
               &#128465;
+              {/* &#215; */}
+            </span>
+            <span
+              title="Editar"
+              onClick={() => editar(i)}
+              style={{
+                fontSize: "16px",
+                color: "grey",
+                cursor: "pointer",
+                position: "absolute",
+                top: "12px"
+              }}
+            >
+              &#x270e;
               {/* &#215; */}
             </span>
           </h1>
