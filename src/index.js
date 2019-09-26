@@ -9,11 +9,13 @@ function App() {
   const [texto, setTexto] = useState(msg);
   const [lista, setLista] = useState([texto]);
   const [editMode, setEditMode] = useState(-1);
-  // const [input, setInput] = useState(texto);
-  const remove = id => {
-    console.log(id);
-    let newLista = lista.filter((t, i) => id !== i);
+  // const [input, setInput] = useState(texto)
+  const remove = j => {
+    console.log(j);
+    let newLista = lista.filter((t, i) => j !== i);
     setLista(newLista);
+    setEditMode(-1);
+    setTexto("");
   };
 
   const editar = id => {
@@ -40,6 +42,9 @@ function App() {
       console.log([...lista, texto]);
       console.log(lista.length);
     }
+
+    setEditMode(-1);
+    setTexto("");
   };
 
   return (
@@ -60,13 +65,20 @@ function App() {
         onClick={() => {
           setTexto("");
           setLista([]);
+          setEditMode(-1);
         }}
       >
         Limpa
       </button>
       {lista.length > 0 ? (
         lista.map((t, i) => (
-          <h1 key={i} style={{ position: "relative" }}>
+          <h1
+            key={i}
+            style={{
+              position: "relative",
+              color: editMode === i ? "gray" : "black"
+            }}
+          >
             {t}
             <span
               title="Excluir"
@@ -79,7 +91,9 @@ function App() {
                 top: "-5px"
               }}
             >
-              &#128465;
+              &#x2718;
+              {/* &#x2717; */}
+              {/* &#128465; */}
               {/* &#215; */}
             </span>
             <span
