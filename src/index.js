@@ -59,7 +59,7 @@ function App() {
           add();
         }}
       >
-        {editMode === -1 ? "Salvar" : "Editar"}
+        {editMode === -1 ? "Adicionar" : "Editar"}
       </button>
       <button
         onClick={() => {
