@@ -54,11 +54,7 @@ function App() {
         value={texto}
         onChange={e => setTexto(e.target.value)}
       />
-      <button
-        onClick={() => {
-          add();
-        }}
-      >
+      <button onClick={() => (texto ? add() : false)}>
         {editMode === -1 ? "Adicionar" : "Editar"}
       </button>
       <button
