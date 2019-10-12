@@ -9,7 +9,9 @@ function App() {
   const [texto, setTexto] = useState(msg);
   const [lista, setLista] = useState([texto]);
   const [editMode, setEditMode] = useState(-1);
+
   // const [input, setInput] = useState(texto)
+
   const remove = j => {
     console.log(j);
     let newLista = lista.filter((t, i) => j !== i);
@@ -30,19 +32,31 @@ function App() {
     console.log({ editMode });
     if (editMode >= 0) {
       console.log("Editando");
-      let newlista = lista.map((t, i) => {
-        console.log(t);
-        t = editMode === i ? texto : t;
-        return t;
-      });
-      setLista(newlista);
+      let id = editMode;
+
+      //CASO PRECISASSE BUSCAR POR UM ID
+      // let newlista = lista.map((t, i) => {
+      //   t = id === i ? texto : t;
+      //   return t;
+      // });
+
+      //setLista(newlista);
+      lista[id] = texto;
     } else {
       console.log("Cadastrando");
+
+      // lista.push(texto)
+      //Funciona mas não recomendado para React
+      //React não trabalha bem com mutabilidade
+      //Por questões de performance é melhor
+      //Passar um novo objeto
+      //https://pt-br.reactjs.org/docs/optimizing-performance.html#the-power-of-not-mutating-data
+
+      //Criando um novo objeto Array
+      //Usando o operador spread ...
       setLista([...lista, texto]);
-      console.log([...lista, texto]);
       console.log(lista.length);
     }
-
     setEditMode(-1);
     setTexto("");
   };
@@ -54,9 +68,11 @@ function App() {
         value={texto}
         onChange={e => setTexto(e.target.value)}
       />
+
       <button onClick={() => (texto ? add() : false)}>
-        {editMode === -1 ? "Adicionar" : "Editar"}
+        {editMode === -1 ? "Adicionar" : "Salvar"}
       </button>
+
       <button
         onClick={() => {
           setTexto("");
@@ -64,8 +80,10 @@ function App() {
           setEditMode(-1);
         }}
       >
-        Limpa
+        {" "}
+        Limpa{" "}
       </button>
+
       {lista.length > 0 ? (
         lista.map((t, i) => (
           <h1
@@ -114,6 +132,7 @@ function App() {
     </div>
   );
 }
+
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
